@@ -10,16 +10,16 @@ import android.os.Parcelable;
 public class Product implements Parcelable{
     private int id;
     private String serial;
-    private String code;
+    private String sortname;
     private String description;
     private int category;
     private int subcategory;
     private int productclass;
 
-    public Product(int id, String serial, String code, String description, int category, int subcategory, int productclass) {
+    public Product(int id, String serial, String sortname, String description, int category, int subcategory, int productclass) {
         this.id = id;
         this.serial = serial;
-        this.code = code;
+        this.sortname = sortname;
         this.description = description;
         this.category = category;
         this.subcategory = subcategory;
@@ -30,7 +30,7 @@ public class Product implements Parcelable{
     protected Product(Parcel in) {
         id = in.readInt();
         serial = in.readString();
-        code = in.readString();
+        sortname = in.readString();
         description = in.readString();
         category = in.readInt();
         subcategory = in.readInt();
@@ -65,12 +65,12 @@ public class Product implements Parcelable{
         this.serial = serial;
     }
 
-    public String getCode() {
-        return code;
+    public String getSortname() {
+        return sortname;
     }
 
-    public void setCode(String code) {
-        this.code = code;
+    public void setSortname(String sortname) {
+        this.sortname = sortname;
     }
 
     public String getDescription() {
@@ -111,7 +111,7 @@ public class Product implements Parcelable{
         return "Product{" +
                 "id=" + id +
                 ", serial='" + serial + '\'' +
-                ", code='" + code + '\'' +
+                ", sortname='" + sortname + '\'' +
                 ", description='" + description + '\'' +
                 ", category=" + category +
                 ", subcategory=" + subcategory +
@@ -128,7 +128,7 @@ public class Product implements Parcelable{
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(id);
         dest.writeString(serial);
-        dest.writeString(code);
+        dest.writeString(sortname);
         dest.writeString(description);
         dest.writeInt(category);
         dest.writeInt(subcategory);

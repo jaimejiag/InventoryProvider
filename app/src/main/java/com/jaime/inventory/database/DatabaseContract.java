@@ -23,7 +23,7 @@ public class DatabaseContract {
     public static class  ProductEntry implements BaseColumns {
         public static final String TABLE_NAME = "product";
         public static final String COLUMN_SERIAL = "serial";
-        public static final String COLUMN_CODE = "code";
+        public static final String COLUMN_SORTNAME = "sortname";
         public static final String COLUMN_DESCRIPTION = "description";
         public static final String COLUMN_CATEGORY = "category";
         public static final String COLUMN_SUBCATEGORY = "subcategory";
@@ -39,13 +39,14 @@ public class DatabaseContract {
                         "%s INT NOT NULL)",
                 TABLE_NAME, BaseColumns._ID,
                 COLUMN_SERIAL,
-                COLUMN_CODE,
+                COLUMN_SORTNAME,
                 COLUMN_DESCRIPTION,
                 COLUMN_CATEGORY,
                 COLUMN_SUBCATEGORY,
                 COLUMN_PRODUCTCLASS);
 
         public static final String SQL_DELETE_ENTRIES = String.format("DROP TABLE %s", TABLE_NAME);
+        public static final String SQL_SELECT_ENTRIES = String.format("SELECT * FROM %s", TABLE_NAME);
     }
 
 

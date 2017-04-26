@@ -13,7 +13,7 @@ import com.jaime.inventory.interfaces.ProductPresenter;
 public class ProductPresenterImpl implements ProductPresenter{
 
     @Override
-    public Cursor requestAllProduct(Context context) {
-        return DatabaseManager.getInstance(context).getAllProduct();
+    public void requestAllProduct() {
+
     }
 }

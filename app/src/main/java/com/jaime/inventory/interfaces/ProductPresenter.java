@@ -12,5 +12,5 @@ public interface ProductPresenter {
 
     }
 
-    Cursor requestAllProduct(Context context);
+    void requestAllProduct();
 }

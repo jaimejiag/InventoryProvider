@@ -8,8 +8,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListAdapter;
+import android.widget.ListView;
 
 import com.jaime.inventory.R;
+import com.jaime.inventory.Loaders.LoaderManager;
 import com.jaime.inventory.adapters.ProductAdapter;
 import com.jaime.inventory.interfaces.ProductPresenter;
 import com.jaime.inventory.presenter.ProductPresenterImpl;
@@ -17,6 +19,7 @@ import com.jaime.inventory.presenter.ProductPresenterImpl;
 public class ListProductFragment extends ListFragment {
     private ListProductListener mCallBack;
     private ProductPresenter presenter;
+    private LoaderManager mLoader;
     private ProductAdapter mAdapter;
 
 
@@ -46,6 +49,8 @@ public class ListProductFragment extends ListFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         presenter = new ProductPresenterImpl();
+        mLoader = new LoaderManager(getActivity());
+        mAdapter = new ProductAdapter(getActivity(), mLoader.loadInBackground());
 
         //Se guarda el fragment en la pila de llamada.
         setRetainInstance(true);
@@ -64,9 +69,7 @@ public class ListProductFragment extends ListFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        ListAdapter listAdapter = (ListAdapter) mAdapter;
-
         //Se inserta el adapter en este método ya que las vistas están creadas.
-        setListAdapter((ListAdapter) mAdapter);
+        setListAdapter(mAdapter);
     }
 }

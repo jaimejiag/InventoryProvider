@@ -1,7 +1,6 @@
 package com.jaime.inventory.database;
 
-import android.content.ContentValues;
-import android.content.Context;
+
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
@@ -11,7 +10,6 @@ import android.database.sqlite.SQLiteDatabase;
  */
 
 public class DatabaseManager {
-    private Context mContext;
     private static DatabaseManager mInstance;
 
 
@@ -20,26 +18,11 @@ public class DatabaseManager {
     }
 
 
-    public static DatabaseManager getInstance(Context context) {
+    public static DatabaseManager getInstance() {
         if (mInstance == null)
             mInstance = new DatabaseManager();
 
         return mInstance;
-    }
-
-
-    public void insertProduct() {
-        SQLiteDatabase db = DatabaseHelper.getInstance().getWritableDatabase();
-        ContentValues values = new ContentValues();
-
-        values.put(DatabaseContract.ProductEntry.COLUMN_SERIAL, "1246124");
-        values.put(DatabaseContract.ProductEntry.COLUMN_SORTNAME, "carcacha");
-        values.put(DatabaseContract.ProductEntry.COLUMN_DESCRIPTION, "La carcachita que más quiero");
-        values.put(DatabaseContract.ProductEntry.COLUMN_CATEGORY, "Coche");
-        values.put(DatabaseContract.ProductEntry.COLUMN_SUBCATEGORY, "Cochecito");
-        values.put(DatabaseContract.ProductEntry.COLUMN_PRODUCTCLASS, "Compuesto");
-
-        db.insert(DatabaseContract.ProductEntry.TABLE_NAME, null, values);
     }
 
 

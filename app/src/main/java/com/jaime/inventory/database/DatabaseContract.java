@@ -47,6 +47,16 @@ public class DatabaseContract {
 
         public static final String SQL_DELETE_ENTRIES = String.format("DROP TABLE %s", TABLE_NAME);
         public static final String SQL_SELECT_ENTRIES = String.format("SELECT * FROM %s", TABLE_NAME);
+
+        public static final String SQL_INSERT_ENTRIES = String.format("INSERT INTO %s (%s, %s, %s, " +
+                "%s, %s, %s) VALUES ('213351', 'carcacha', 'La carcachita que más quiero', 1, 1, 1)",
+                TABLE_NAME,
+                COLUMN_SERIAL,
+                COLUMN_SORTNAME,
+                COLUMN_DESCRIPTION,
+                COLUMN_CATEGORY,
+                COLUMN_SUBCATEGORY,
+                COLUMN_PRODUCTCLASS);
     }
 
 

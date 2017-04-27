@@ -1,7 +1,9 @@
 package com.jaime.inventory.database;
 
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import com.jaime.inventory.InventoryApplication;
 
@@ -38,13 +40,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.beginTransaction();
+        try {
+            db.execSQL(DatabaseContract.ProductEntry.SQL_CREATE_ENTRIES);
+            Log.d("Creation", DatabaseContract.ProductEntry.SQL_CREATE_ENTRIES);
+            db.execSQL(DatabaseContract.CategoryEntry.SQL_CREATE_ENTRIES);
+            db.execSQL(DatabaseContract.SubcategoryEntry.SQL_CREATE_ENTRIES);
+            db.execSQL(DatabaseContract.ProductClassEntry.SQL_CREATE_ENTRIES);
 
-        db.execSQL(DatabaseContract.ProductEntry.SQL_CREATE_ENTRIES);
-        db.execSQL(DatabaseContract.CategoryEntry.SQL_CREATE_ENTRIES);
-        db.execSQL(DatabaseContract.SubcategoryEntry.SQL_CREATE_ENTRIES);
-        db.execSQL(DatabaseContract.ProductClassEntry.SQL_CREATE_ENTRIES);
-
-        db.endTransaction();
+            db.execSQL(DatabaseContract.ProductEntry.SQL_INSERT_ENTRIES);
+            db.setTransactionSuccessful();
+        } catch (Exception e) {
+            Log.d("ERROR", "Mal creación de tablas");
+        } finally {
+            db.endTransaction();
+        }
     }
 
 

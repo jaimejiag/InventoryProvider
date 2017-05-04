@@ -3,6 +3,7 @@ package com.jaime.inventory.database;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 
 /**
  * Esta clase es la clase DAO que gestiona la conexión a la base de datos y contiene los métodos
@@ -18,19 +19,36 @@ public class DatabaseManager {
     }
 
 
-    public static DatabaseManager getInstance() {
+    public static synchronized DatabaseManager getInstance() {
         if (mInstance == null)
-            mInstance = new DatabaseManager();
+            throw new IllegalStateException("DatabaseManager is not initialized, call initialize");
 
         return mInstance;
     }
 
 
-    public Cursor getAllProduct() {
-        SQLiteDatabase db = DatabaseHelper.getInstance().getWritableDatabase();
-        Cursor cursor;
+    public static synchronized void initialize(DatabaseManager databaseManager) {
+        if (mInstance == null)
+            mInstance = databaseManager;
+    }
 
-        cursor = db.rawQuery(DatabaseContract.ProductEntry.SQL_SELECT_ENTRIES, null);
+
+    /**
+     * Método que devuelve todos los productos de la base de datos.
+     * @return
+     */
+    public Cursor getAllProduct() {
+        Cursor cursor = null;
+        SQLiteDatabase db = DatabaseHelper.getInstance().openDatabase();
+
+        try {
+            cursor = db.query(DatabaseContract.ProductEntry.TABLE_NAME, DatabaseContract.ProductEntry.ALL_COLUMNS, null, null, null, null, null);
+        } catch (SQLiteException e) {
+
+        } finally {
+            //DatabaseHelper.getInstance().closeDatabase();
+        }
+
         return cursor;
     }
 }

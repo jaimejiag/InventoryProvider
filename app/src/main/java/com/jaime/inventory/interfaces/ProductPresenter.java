@@ -9,7 +9,8 @@ import android.database.Cursor;
 
 public interface ProductPresenter {
     interface View {
-
+        Context getContext();
+        void setCursor(Cursor cursor);
     }
 
     void requestAllProduct();

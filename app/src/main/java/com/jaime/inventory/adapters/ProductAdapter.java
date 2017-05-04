@@ -9,6 +9,7 @@ import android.widget.CursorAdapter;
 import android.widget.TextView;
 
 import com.jaime.inventory.R;
+import com.jaime.inventory.pojo.Product;
 
 /**
  * Created by usuario on 27/04/17.
@@ -46,11 +47,26 @@ public class ProductAdapter extends CursorAdapter {
         holder.txvSerial.setText(cursor.getString(1));
         holder.txvSortname.setText(cursor.getString(2));
         holder.txvDescription.setText(cursor.getString(3));
-        holder.txvCategory.setText(cursor.getInt(4));
-        holder.txvSubcategory.setText(cursor.getInt(5));
-        holder.txvProductclass.setText(cursor.getInt(6));
+        holder.txvCategory.setText(String.valueOf(cursor.getInt(4)));
+        holder.txvSubcategory.setText(String.valueOf(cursor.getInt(5)));
+        holder.txvProductclass.setText(String.valueOf(cursor.getInt(6)));
     }
 
+
+    @Override
+    public Object getItem(int position) {
+        getCursor().moveToPosition(position);
+
+        Product p = new Product(getCursor().getInt(0),
+                getCursor().getString(1),
+                getCursor().getString(2),
+                getCursor().getString(3),
+                getCursor().getInt(4),
+                getCursor().getInt(4),
+                getCursor().getInt(4));
+
+        return p;
+    }
 
     private class ProductHolder {
         TextView txvSerial;

@@ -3,7 +3,7 @@ package com.jaime.inventory;
 import android.app.Application;
 import android.content.Context;
 
-import com.jaime.inventory.database.DatabaseHelper;
+import com.jaime.inventory.database.DatabaseManager;
 
 /**
  * Created by usuario on 20/04/17.
@@ -18,7 +18,10 @@ public class InventoryApplication extends Application {
         super.onCreate();
 
         // Cuando se abra la aplicación, creará la base de datos.
-        DatabaseHelper.getInstance().openDatabase();
+        //DatabaseHelper.getInstance().openDatabase();
+
+        //Al abrir la aplicación se incializa el objeto singleton del interactor.
+        DatabaseManager.initialize(new DatabaseManager());
     }
 
 

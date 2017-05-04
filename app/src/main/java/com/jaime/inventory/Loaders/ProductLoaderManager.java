@@ -1,8 +1,8 @@
 package com.jaime.inventory.Loaders;
 
 import android.content.Context;
+import android.content.CursorLoader;
 import android.database.Cursor;
-import android.support.v4.content.CursorLoader;
 
 import com.jaime.inventory.database.DatabaseManager;
 
@@ -10,9 +10,9 @@ import com.jaime.inventory.database.DatabaseManager;
  * Created by usuario on 24/04/17.
  */
 
-public class LoaderManager extends CursorLoader {
+public class ProductLoaderManager extends CursorLoader {
 
-    public LoaderManager(Context context) {
+    public ProductLoaderManager(Context context) {
         super(context);
     }
 

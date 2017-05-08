@@ -46,7 +46,6 @@ public class DatabaseContract {
                 COLUMN_PRODUCTCLASS);
 
         public static final String SQL_DELETE_ENTRIES = String.format("DROP TABLE %s", TABLE_NAME);
-        //public static final String SQL_SELECT_ENTRIES = String.format("SELECT * FROM %s", TABLE_NAME);
 
         public static final String SQL_INSERT_ENTRIES = String.format("INSERT INTO %s (%s, %s, %s, " +
                 "%s, %s, %s) VALUES ('213351', 'carcacha', 'La carcachita que más quiero', 1, 1, 1)",
@@ -89,16 +88,19 @@ public class DatabaseContract {
         public static final String COLUMN_NAME = "name";
         public static final String COLUMN_SORTNAME = "sortname";
         public static final String COLUMN_DESCRIPTION = "description";
+        public static final String COLUMN_IDCATEGORY = "idcategory";
 
         public static final String SQL_CREATE_ENTRIES = String.format("CREATE TABLE %s (" +
                         "%s INTEGER PRIMARY KEY AUTOINCREMENT, " +
                         "%s TEXT UNIQUE NOT NULL, " +
                         "%s TEXT UNIQUE NOT NULL, " +
-                        "%s TEXT NOT NULL)",
+                        "%s TEXT NOT NULL, " +
+                        "%s INTEGER NOT NULL)",
                 TABLE_NAME, BaseColumns._ID,
                 COLUMN_NAME,
                 COLUMN_SORTNAME,
-                COLUMN_DESCRIPTION);
+                COLUMN_DESCRIPTION,
+                COLUMN_IDCATEGORY);
 
         public static final String SQL_DELETE_ENTRIES = String.format("DROP TABLE %s", TABLE_NAME);
     }

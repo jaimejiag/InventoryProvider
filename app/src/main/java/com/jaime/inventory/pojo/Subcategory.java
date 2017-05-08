@@ -12,13 +12,14 @@ public class Subcategory implements Parcelable {
     private String name;
     private String sortname;
     private String description;
+    private int idcategory;
 
-
-    public Subcategory(int id, String name, String sortname, String description) {
+    public Subcategory(int id, String name, String sortname, String description, int idcategory) {
         this.id = id;
         this.name = name;
         this.sortname = sortname;
         this.description = description;
+        this.idcategory = idcategory;
     }
 
 
@@ -27,19 +28,22 @@ public class Subcategory implements Parcelable {
         name = in.readString();
         sortname = in.readString();
         description = in.readString();
+        idcategory = in.readInt();
     }
 
-    public static final Creator<Category> CREATOR = new Creator<Category>() {
+
+    public static final Creator<Subcategory> CREATOR = new Creator<Subcategory>() {
         @Override
-        public Category createFromParcel(Parcel in) {
-            return new Category(in);
+        public Subcategory createFromParcel(Parcel in) {
+            return new Subcategory(in);
         }
 
         @Override
-        public Category[] newArray(int size) {
-            return new Category[size];
+        public Subcategory[] newArray(int size) {
+            return new Subcategory[size];
         }
     };
+
 
     public int getId() {
         return id;
@@ -73,14 +77,23 @@ public class Subcategory implements Parcelable {
         this.description = description;
     }
 
+    public int getIdcategory() {
+        return idcategory;
+    }
+
+    public void setIdcategory(int idcategory) {
+        this.idcategory = idcategory;
+    }
+
 
     @Override
     public String toString() {
-        return "Category{" +
+        return "Subcategory{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", sortname='" + sortname + '\'' +
                 ", description='" + description + '\'' +
+                ", idcategory=" + idcategory +
                 '}';
     }
 
@@ -90,11 +103,13 @@ public class Subcategory implements Parcelable {
         return 0;
     }
 
+
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(id);
         dest.writeString(name);
         dest.writeString(sortname);
         dest.writeString(description);
+        dest.writeInt(idcategory);
     }
 }

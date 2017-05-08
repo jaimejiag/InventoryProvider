@@ -7,7 +7,7 @@ import android.os.Parcelable;
  * Created by usuario on 20/04/17.
  */
 
-public class Product implements Parcelable{
+public class Product implements Parcelable {
     private int id;
     private String serial;
     private String sortname;

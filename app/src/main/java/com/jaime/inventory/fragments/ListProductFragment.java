@@ -20,7 +20,6 @@ public class ListProductFragment extends ListFragment implements ProductPresente
     private FloatingActionButton fabAddProduct;
     private ListProductListener mCallBack;
     private ProductPresenter presenter;
-    private ProductLoaderManager mLoader;
     private ProductAdapter mAdapter;
 
 

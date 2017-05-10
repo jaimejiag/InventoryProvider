@@ -7,7 +7,8 @@ import android.os.Bundle;
 import com.jaime.inventory.fragments.AddProductFragment;
 import com.jaime.inventory.fragments.ListProductFragment;
 
-public class MainActivity extends AppCompatActivity implements ListProductFragment.ListProductListener{
+public class MainActivity extends AppCompatActivity implements ListProductFragment.ListProductListener,
+        AddProductFragment.AddProductListener{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,5 +29,11 @@ public class MainActivity extends AppCompatActivity implements ListProductFragme
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         AddProductFragment fragment = new AddProductFragment();
         transaction.replace(R.id.layout_main, fragment).commit();
+    }
+
+    
+    @Override
+    public void onListProductListener() {
+
     }
 }

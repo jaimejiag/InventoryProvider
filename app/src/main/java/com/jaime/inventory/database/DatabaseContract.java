@@ -80,6 +80,9 @@ public class DatabaseContract {
                 COLUMN_DESCRIPTION);
 
         public static final String SQL_DELETE_ENTRIES = String.format("DROP TABLE %s", TABLE_NAME);
+
+        public static final String[] ALL_COLUMNS = new String[] { BaseColumns._ID, COLUMN_NAME,
+                COLUMN_SORTNAME, COLUMN_DESCRIPTION };
     }
 
 
@@ -103,6 +106,9 @@ public class DatabaseContract {
                 COLUMN_IDCATEGORY);
 
         public static final String SQL_DELETE_ENTRIES = String.format("DROP TABLE %s", TABLE_NAME);
+
+        public static final String[] ALL_COLUMNS = new String[] { BaseColumns._ID, COLUMN_NAME,
+                COLUMN_SORTNAME, COLUMN_DESCRIPTION, COLUMN_IDCATEGORY };
     }
 
 

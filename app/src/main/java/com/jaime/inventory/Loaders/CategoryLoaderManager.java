@@ -7,20 +7,18 @@ import android.database.Cursor;
 import com.jaime.inventory.database.DatabaseManager;
 
 /**
- * Created by usuario on 24/04/17.
+ * Created by jaime on 10/05/2017.
  */
 
-public class ProductLoaderManager extends CursorLoader {
+public class CategoryLoaderManager extends CursorLoader {
 
-    public ProductLoaderManager(Context context) {
+    public CategoryLoaderManager(Context context) {
         super(context);
     }
 
 
     @Override
     public Cursor loadInBackground() {
-        return DatabaseManager.getInstance().getAllProduct();
+        return DatabaseManager.getInstance().getAllCategory();
     }
-
-
 }

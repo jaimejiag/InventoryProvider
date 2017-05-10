@@ -62,8 +62,8 @@ public class ProductAdapter extends CursorAdapter {
                 getCursor().getString(2),
                 getCursor().getString(3),
                 getCursor().getInt(4),
-                getCursor().getInt(4),
-                getCursor().getInt(4));
+                getCursor().getInt(5),
+                getCursor().getInt(6));
 
         return p;
     }

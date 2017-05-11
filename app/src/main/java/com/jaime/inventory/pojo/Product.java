@@ -16,6 +16,17 @@ public class Product implements Parcelable {
     private int subcategory;
     private int productclass;
 
+
+    public Product(String serial, String sortname, String description, int category, int subcategory, int productclass) {
+        this.serial = serial;
+        this.sortname = sortname;
+        this.description = description;
+        this.category = category;
+        this.subcategory = subcategory;
+        this.productclass = productclass;
+    }
+
+
     public Product(int id, String serial, String sortname, String description, int category, int subcategory, int productclass) {
         this.id = id;
         this.serial = serial;

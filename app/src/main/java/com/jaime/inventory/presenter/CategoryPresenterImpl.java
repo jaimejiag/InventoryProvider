@@ -10,22 +10,22 @@ import android.os.Bundle;
 import com.jaime.inventory.Loaders.CategoryLoaderManager;
 import com.jaime.inventory.Loaders.SubcategoryLoaderManager;
 import com.jaime.inventory.database.DatabaseContract;
-import com.jaime.inventory.interfaces.AddProductPresenter;
+import com.jaime.inventory.database.DatabaseManager;
+import com.jaime.inventory.interfaces.CategoryPresenter;
+import com.jaime.inventory.pojo.Product;
 
 /**
  * Created by jaime on 10/05/2017.
  */
 
-public class AddProductPresenterImpl implements AddProductPresenter, LoaderManager.LoaderCallbacks<Cursor> {
+public class CategoryPresenterImpl implements CategoryPresenter, LoaderManager.LoaderCallbacks<Cursor> {
     private static final int CATEGORY = 2;
-    private static final int SUBCATEGORY = 3;
 
-    private AddProductPresenter.View mView;
+    private CategoryPresenter.View mView;
     private Context mContext;
-    private int mIdCategory;
 
 
-    public AddProductPresenterImpl(AddProductPresenter.View view) {
+    public CategoryPresenterImpl(CategoryPresenter.View view) {
         mView = view;
         mContext = view.getContext();
     }
@@ -33,14 +33,7 @@ public class AddProductPresenterImpl implements AddProductPresenter, LoaderManag
 
     @Override
     public void requestAllCategory() {
-        ((Activity) mContext).getLoaderManager().initLoader(CATEGORY, null, this);
-    }
-
-
-    @Override
-    public void requestSubcategorySelection(int idCategory) {
-        ((Activity) mContext).getLoaderManager().initLoader(SUBCATEGORY, null, this);
-        mIdCategory = idCategory;
+        ((Activity) mContext).getLoaderManager().restartLoader(CATEGORY, null, this);
     }
 
 
@@ -51,8 +44,8 @@ public class AddProductPresenterImpl implements AddProductPresenter, LoaderManag
 
 
     @Override
-    public String[] requestSubcategoryColumnName() {
-        return new String[] { DatabaseContract.SubcategoryEntry.COLUMN_NAME };
+    public void petitionToAddProduct(Product product) {
+        DatabaseManager.getInstance().addProduct(product);
     }
 
 
@@ -64,10 +57,6 @@ public class AddProductPresenterImpl implements AddProductPresenter, LoaderManag
             case CATEGORY:
                 loader = new CategoryLoaderManager(mContext);
                 break;
-
-            case SUBCATEGORY:
-                loader = new SubcategoryLoaderManager(mContext, mIdCategory);
-                break;
         }
 
         return loader;
@@ -76,12 +65,12 @@ public class AddProductPresenterImpl implements AddProductPresenter, LoaderManag
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
-        mView.setCursor(cursor);
+        mView.setCursorCategory(cursor);
     }
 
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-        mView.setCursor(null);
+        mView.setCursorCategory(null);
     }
 }

@@ -1,10 +1,13 @@
 package com.jaime.inventory.database;
 
 
+import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.util.Log;
+
+import com.jaime.inventory.pojo.Product;
 
 /**
  * Esta clase es la clase DAO que gestiona la conexión a la base de datos y contiene los métodos
@@ -81,9 +84,28 @@ public class DatabaseManager {
                     DatabaseContract.SubcategoryEntry.ALL_COLUMNS, selection, selectionArgs, null,
                     null, null);
         } catch (SQLiteException e) {
-            Log.e("SQLiteException", e.getMessage());
+            Log.e("getAllSubcategoryFromId", e.getMessage());
         }
 
         return cursor;
+    }
+
+
+    public void addProduct(Product product) {
+        SQLiteDatabase db = DatabaseHelper.getInstance().openDatabase();
+        ContentValues values = new ContentValues();
+
+        try {
+            values.put(DatabaseContract.ProductEntry.COLUMN_SERIAL, product.getSerial());
+            values.put(DatabaseContract.ProductEntry.COLUMN_SORTNAME, product.getSortname());
+            values.put(DatabaseContract.ProductEntry.COLUMN_DESCRIPTION, product.getDescription());
+            values.put(DatabaseContract.ProductEntry.COLUMN_CATEGORY, product.getCategory());
+            values.put(DatabaseContract.ProductEntry.COLUMN_SUBCATEGORY, product.getSubcategory());
+            values.put(DatabaseContract.ProductEntry.COLUMN_PRODUCTCLASS, product.getProductclass());
+
+            db.insert(DatabaseContract.ProductEntry.TABLE_NAME, null, values);
+        } catch (SQLiteException e) {
+            Log.e("Insert exception", e.getMessage());
+        }
     }
 }

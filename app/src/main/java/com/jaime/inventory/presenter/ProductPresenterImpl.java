@@ -28,7 +28,7 @@ public class ProductPresenterImpl implements ProductPresenter, LoaderManager.Loa
 
     @Override
     public void requestAllProduct() {
-        ((Activity) mView.getContext()).getLoaderManager().initLoader(PRODUCT, null, this);
+        ((Activity) mView.getContext()).getLoaderManager().restartLoader(PRODUCT, null, this);
     }
 
 

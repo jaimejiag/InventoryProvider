@@ -34,6 +34,8 @@ public class MainActivity extends AppCompatActivity implements ListProductFragme
     
     @Override
     public void onListProductListener() {
-
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        ListProductFragment fragment = new ListProductFragment();
+        transaction.replace(R.id.layout_main, fragment).commit();
     }
 }

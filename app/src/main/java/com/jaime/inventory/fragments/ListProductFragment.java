@@ -28,11 +28,6 @@ public class ListProductFragment extends ListFragment implements ProductPresente
     }
 
 
-    public ListProductFragment() {
-
-    }
-
-
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);

@@ -9,25 +9,34 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.CursorAdapter;
+import android.widget.EditText;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
 
 import com.jaime.inventory.R;
-import com.jaime.inventory.interfaces.AddProductPresenter;
-import com.jaime.inventory.presenter.AddProductPresenterImpl;
+import com.jaime.inventory.interfaces.CategoryPresenter;
+import com.jaime.inventory.interfaces.SubcategoryPresenter;
+import com.jaime.inventory.pojo.Product;
+import com.jaime.inventory.presenter.CategoryPresenterImpl;
+import com.jaime.inventory.presenter.SubcategoryPresenterImpl;
 
 
-public class AddProductFragment extends Fragment implements AddProductPresenter.View,
-        AdapterView.OnItemSelectedListener {
+public class AddProductFragment extends Fragment implements CategoryPresenter.View,
+        SubcategoryPresenter.View, AdapterView.OnItemSelectedListener {
     private Spinner spCategory;
     private Spinner spSubcategory;
+    private EditText edtSerial;
+    private EditText edtSortname;
+    private EditText edtDescription;
+    private Button btnAdd;
 
     private AddProductListener mCallBack;
-    private AddProductPresenter mPresenter;
+    private CategoryPresenter mPresenterCategory;
+    private SubcategoryPresenter mPresenterSubcategory;
     private SimpleCursorAdapter mAdapterCategory;
     private SimpleCursorAdapter mAdapterSubcategory;
-    private boolean mIsCategoryAdapterPopulated;
 
 
     public interface AddProductListener {
@@ -50,15 +59,16 @@ public class AddProductFragment extends Fragment implements AddProductPresenter.
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mPresenter = new AddProductPresenterImpl(this);
+        mPresenterCategory = new CategoryPresenterImpl(this);
+        mPresenterSubcategory = new SubcategoryPresenterImpl(this);
 
         mAdapterCategory = new SimpleCursorAdapter(getActivity(), android.R.layout.simple_spinner_item,
-                null, mPresenter.requestCategoryColumnName(), new int[] {android.R.id.text1},
+                null, mPresenterCategory.requestCategoryColumnName(), new int[] {android.R.id.text1},
                 CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
         mAdapterCategory.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         mAdapterSubcategory = new SimpleCursorAdapter(getActivity(), android.R.layout.simple_spinner_item,
-                null, mPresenter.requestSubcategoryColumnName(), new int[] {android.R.id.text1},
+                null, mPresenterSubcategory.requestSubcategoryColumnName(), new int[] {android.R.id.text1},
                 CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
         mAdapterSubcategory.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
     }
@@ -69,9 +79,20 @@ public class AddProductFragment extends Fragment implements AddProductPresenter.
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_add_product, container, false);
         spCategory = (Spinner) rootView.findViewById(R.id.sp_category);
-        spCategory.setOnItemSelectedListener(this);
         spSubcategory = (Spinner) rootView.findViewById(R.id.sp_subcategory);
-        spSubcategory.setOnItemSelectedListener(this);
+        edtSerial = (EditText) rootView.findViewById(R.id.edt_serial);
+        edtSortname = (EditText) rootView.findViewById(R.id.edt_sortname);
+        edtDescription = (EditText) rootView.findViewById(R.id.edt_description);
+        btnAdd = (Button) rootView.findViewById(R.id.btn_add);
+
+        spCategory.setOnItemSelectedListener(this);
+        btnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendProductData();
+                mCallBack.onListProductListener();
+            }
+        });
 
         return rootView;
     }
@@ -89,18 +110,20 @@ public class AddProductFragment extends Fragment implements AddProductPresenter.
     @Override
     public void onStart() {
         super.onStart();
-        mIsCategoryAdapterPopulated = false;
-        mPresenter.requestAllCategory();
+        mPresenterCategory.requestAllCategory();
     }
 
 
     @Override
-    public void setCursor(Cursor cursor) {
-        if (!mIsCategoryAdapterPopulated) {
-            mAdapterCategory.changeCursor(cursor);
-            mIsCategoryAdapterPopulated = true;
-        } else
-            mAdapterSubcategory.changeCursor(cursor);
+    public void setCursorCategory(Cursor cursor) {
+        mAdapterCategory.changeCursor(cursor);
+        //mAdapterCategory.notifyDataSetChanged();
+    }
+
+
+    @Override
+    public void setCursorSubcategory(Cursor cursor) {
+        mAdapterSubcategory.changeCursor(cursor);
     }
 
 
@@ -110,9 +133,8 @@ public class AddProductFragment extends Fragment implements AddProductPresenter.
 
         switch (idSpinner) {
             case R.id.sp_category:
-                Cursor cursor = (Cursor) adapterView.getItemAtPosition(i);
-                int idCategory = cursor.getInt(0);
-                mPresenter.requestSubcategorySelection(idCategory);
+                int idCategory = ((Cursor)spCategory.getSelectedItem()).getInt(0);
+                mPresenterSubcategory.requestSubcategorySelection(idCategory);
                 break;
         }
     }
@@ -121,5 +143,17 @@ public class AddProductFragment extends Fragment implements AddProductPresenter.
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
 
+    }
+
+
+    private void sendProductData() {
+        String serial = edtSerial.getText().toString();
+        String sortname = edtSortname.getText().toString();
+        String description = edtDescription.getText().toString();
+        int category = ((Cursor) spCategory.getSelectedItem()).getInt(0);
+        int subcategory = ((Cursor) spSubcategory.getSelectedItem()).getInt(0);
+
+        Product product = new Product(serial, sortname, description, category, subcategory, 0);
+        mPresenterCategory.petitionToAddProduct(product);
     }
 }

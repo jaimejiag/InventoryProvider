@@ -3,18 +3,19 @@ package com.jaime.inventory.interfaces;
 import android.content.Context;
 import android.database.Cursor;
 
+import com.jaime.inventory.pojo.Product;
+
 /**
  * Created by jaime on 10/05/2017.
  */
 
-public interface AddProductPresenter {
+public interface CategoryPresenter {
     interface View {
         Context getContext();
-        void setCursor(Cursor cursor);
+        void setCursorCategory(Cursor cursor);
     }
 
     void requestAllCategory();
-    void requestSubcategorySelection(int idCategory);
     String[] requestCategoryColumnName();
-    String[] requestSubcategoryColumnName();
+    void petitionToAddProduct(Product product);
 }

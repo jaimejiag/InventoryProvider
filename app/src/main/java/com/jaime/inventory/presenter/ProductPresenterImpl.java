@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.os.Bundle;
 
 import com.jaime.inventory.Loaders.ProductLoaderManager;
+import com.jaime.inventory.database.DatabaseManager;
 import com.jaime.inventory.interfaces.ProductPresenter;
 
 /**
@@ -33,6 +34,12 @@ public class ProductPresenterImpl implements ProductPresenter, LoaderManager.Loa
 
 
     @Override
+    public void requestDeleteProduct(int id) {
+        DatabaseManager.getInstance().deleteProduct(id);
+    }
+
+
+    @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         Loader loader = null;
 
@@ -45,11 +52,13 @@ public class ProductPresenterImpl implements ProductPresenter, LoaderManager.Loa
         return loader;
     }
 
+
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         mView.setCursor(data);
 
     }
+
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {

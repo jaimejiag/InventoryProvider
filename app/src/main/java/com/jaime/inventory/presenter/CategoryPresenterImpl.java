@@ -50,6 +50,12 @@ public class CategoryPresenterImpl implements CategoryPresenter, LoaderManager.L
 
 
     @Override
+    public void requestUpdateProduct(Product product) {
+        DatabaseManager.getInstance().updateProduct(product);
+    }
+
+
+    @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
         Loader loader = null;
 

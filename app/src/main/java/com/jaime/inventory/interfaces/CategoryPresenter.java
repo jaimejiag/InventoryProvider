@@ -18,4 +18,5 @@ public interface CategoryPresenter {
     void requestAllCategory();
     String[] requestCategoryColumnName();
     void petitionToAddProduct(Product product);
+    void requestUpdateProduct(Product product);
 }

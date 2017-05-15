@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import com.jaime.inventory.fragments.AddProductFragment;
 import com.jaime.inventory.fragments.ListProductFragment;
+import com.jaime.inventory.pojo.Product;
 
 public class MainActivity extends AppCompatActivity implements ListProductFragment.ListProductListener,
         AddProductFragment.AddProductListener{
@@ -31,7 +32,19 @@ public class MainActivity extends AppCompatActivity implements ListProductFragme
         transaction.replace(R.id.layout_main, fragment).commit();
     }
 
-    
+
+    @Override
+    public void onUpdateProductListener(Product product) {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        AddProductFragment fragment = new AddProductFragment();
+        Bundle bundle = new Bundle();
+
+        bundle.putParcelable(fragment.UPDATE_PRODUCT, product);
+        fragment.setArguments(bundle);
+        transaction.replace(R.id.layout_main, fragment).commit();
+    }
+
+
     @Override
     public void onListProductListener() {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();

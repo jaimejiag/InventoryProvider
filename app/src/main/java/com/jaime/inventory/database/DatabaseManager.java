@@ -5,6 +5,7 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
+import android.database.sqlite.SQLiteQueryBuilder;
 import android.util.Log;
 
 import com.jaime.inventory.pojo.Product;
@@ -50,9 +51,16 @@ public class DatabaseManager {
                     DatabaseContract.ProductEntry.ALL_COLUMNS, null, null, null, null, null);
         } catch (SQLiteException e) {
 
-        } finally {
-            //DatabaseHelper.getInstance().closeDatabase();
         }
+
+        return cursor;
+    }
+
+
+    public Cursor getAllProductInnerJoin() {
+        Cursor cursor = null;
+        SQLiteDatabase db = DatabaseHelper.getInstance().openDatabase();
+        SQLiteQueryBuilder queryBuilder = new SQLiteQueryBuilder();
 
         return cursor;
     }
@@ -106,6 +114,39 @@ public class DatabaseManager {
             db.insert(DatabaseContract.ProductEntry.TABLE_NAME, null, values);
         } catch (SQLiteException e) {
             Log.e("Insert exception", e.getMessage());
+        }
+    }
+
+
+    public void deleteProduct(int id) {
+        SQLiteDatabase db = DatabaseHelper.getInstance().openDatabase();
+        String whereClause = DatabaseContract.ProductEntry._ID + " = ?";
+        String[] whereValue = new String[] { String.valueOf(id) };
+
+        try {
+            db.delete(DatabaseContract.ProductEntry.TABLE_NAME, whereClause, whereValue);
+        } catch (SQLiteException e) {
+            Log.e("Delete exception", e.getMessage());
+        }
+    }
+
+
+    public void updateProduct(Product product) {
+        SQLiteDatabase db = DatabaseHelper.getInstance().openDatabase();
+        String whereClause = DatabaseContract.ProductEntry._ID + " = ?";
+        String[] whereValues = new String[] { String.valueOf(product.getId()) };
+        ContentValues values = new ContentValues();
+
+        values.put(DatabaseContract.ProductEntry.COLUMN_SERIAL, product.getSerial());
+        values.put(DatabaseContract.ProductEntry.COLUMN_SORTNAME, product.getSortname());
+        values.put(DatabaseContract.ProductEntry.COLUMN_DESCRIPTION, product.getDescription());
+        values.put(DatabaseContract.ProductEntry.COLUMN_CATEGORY, product.getCategory());
+        values.put(DatabaseContract.ProductEntry.COLUMN_SUBCATEGORY, product.getSubcategory());
+
+        try {
+            db.update(DatabaseContract.ProductEntry.TABLE_NAME, values, whereClause, whereValues);
+        } catch (SQLiteException e) {
+            Log.e("Update exception", e.getMessage());
         }
     }
 }

@@ -14,4 +14,5 @@ public interface ProductPresenter {
     }
 
     void requestAllProduct();
+    void requestDeleteProduct(int id);
 }

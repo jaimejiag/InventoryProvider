@@ -58,8 +58,23 @@ public class DatabaseContract {
                 COLUMN_PRODUCTCLASS);
 
 
-        public static final String[] ALL_COLUMNS = new String[] {BaseColumns._ID, COLUMN_SERIAL, COLUMN_SORTNAME,
-                COLUMN_DESCRIPTION, COLUMN_CATEGORY, COLUMN_SUBCATEGORY, COLUMN_PRODUCTCLASS};
+        public static final String[] ALL_COLUMNS = new String[] { BaseColumns._ID, COLUMN_SERIAL, COLUMN_SORTNAME,
+                COLUMN_DESCRIPTION, COLUMN_CATEGORY, COLUMN_SUBCATEGORY, COLUMN_PRODUCTCLASS };
+
+        public static final String[] PROJECTION_INNER = new String[] { BaseColumns._ID, COLUMN_SERIAL, COLUMN_SORTNAME,
+                COLUMN_DESCRIPTION, COLUMN_CATEGORY, COLUMN_SUBCATEGORY, COLUMN_PRODUCTCLASS,
+                CategoryEntry.COLUMN_NAME };
+
+        public static final String PRODUCT_JOIN_CATEGORY_SUBCATEGORY = String.format("%s INNER JOIN %s " +
+                "ON %s = %s.%s INNER JOIN %s ON %s = %s.%s",
+                TABLE_NAME, CategoryEntry.TABLE_NAME,
+                COLUMN_CATEGORY,
+                CategoryEntry.TABLE_NAME,
+                CategoryEntry._ID,
+                SubcategoryEntry.TABLE_NAME,
+                COLUMN_SUBCATEGORY,
+                SubcategoryEntry.TABLE_NAME,
+                SubcategoryEntry._ID);
     }
 
 

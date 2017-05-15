@@ -15,6 +15,8 @@ public class Product implements Parcelable {
     private int category;
     private int subcategory;
     private int productclass;
+    private String categoryName;
+    private String subcategoryName;
 
 
     public Product(String serial, String sortname, String description, int category, int subcategory, int productclass) {
@@ -46,7 +48,30 @@ public class Product implements Parcelable {
         category = in.readInt();
         subcategory = in.readInt();
         productclass = in.readInt();
+        categoryName = in.readString();
+        subcategoryName = in.readString();
     }
+
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeString(serial);
+        dest.writeString(sortname);
+        dest.writeString(description);
+        dest.writeInt(category);
+        dest.writeInt(subcategory);
+        dest.writeInt(productclass);
+        dest.writeString(categoryName);
+        dest.writeString(subcategoryName);
+    }
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
 
     public static final Creator<Product> CREATOR = new Creator<Product>() {
         @Override
@@ -59,6 +84,7 @@ public class Product implements Parcelable {
             return new Product[size];
         }
     };
+
 
     public int getId() {
         return id;
@@ -116,6 +142,22 @@ public class Product implements Parcelable {
         this.productclass = productclass;
     }
 
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
+    }
+
+    public String getSubcategoryName() {
+        return subcategoryName;
+    }
+
+    public void setSubcategoryName(String subcategoryName) {
+        this.subcategoryName = subcategoryName;
+    }
+
 
     @Override
     public String toString() {
@@ -127,22 +169,8 @@ public class Product implements Parcelable {
                 ", category=" + category +
                 ", subcategory=" + subcategory +
                 ", productclass=" + productclass +
+                ", categoryName='" + categoryName + '\'' +
+                ", subcategoryName='" + subcategoryName + '\'' +
                 '}';
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(id);
-        dest.writeString(serial);
-        dest.writeString(sortname);
-        dest.writeString(description);
-        dest.writeInt(category);
-        dest.writeInt(subcategory);
-        dest.writeInt(productclass);
     }
 }

@@ -25,6 +25,8 @@ import com.jaime.inventory.presenter.SubcategoryPresenterImpl;
 
 public class AddProductFragment extends Fragment implements CategoryPresenter.View,
         SubcategoryPresenter.View, AdapterView.OnItemSelectedListener {
+    public static final String UPDATE_PRODUCT = "updateProduct";
+
     private Spinner spCategory;
     private Spinner spSubcategory;
     private EditText edtSerial;
@@ -117,7 +119,6 @@ public class AddProductFragment extends Fragment implements CategoryPresenter.Vi
     @Override
     public void setCursorCategory(Cursor cursor) {
         mAdapterCategory.changeCursor(cursor);
-        //mAdapterCategory.notifyDataSetChanged();
     }
 
 
@@ -126,6 +127,14 @@ public class AddProductFragment extends Fragment implements CategoryPresenter.Vi
         mAdapterSubcategory.changeCursor(cursor);
     }
 
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if (getArguments() != null)
+            setDataFields();
+    }
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -147,6 +156,7 @@ public class AddProductFragment extends Fragment implements CategoryPresenter.Vi
 
 
     private void sendProductData() {
+        int id;
         String serial = edtSerial.getText().toString();
         String sortname = edtSortname.getText().toString();
         String description = edtDescription.getText().toString();
@@ -154,6 +164,45 @@ public class AddProductFragment extends Fragment implements CategoryPresenter.Vi
         int subcategory = ((Cursor) spSubcategory.getSelectedItem()).getInt(0);
 
         Product product = new Product(serial, sortname, description, category, subcategory, 0);
-        mPresenterCategory.petitionToAddProduct(product);
+
+        if (getArguments() == null)
+            mPresenterCategory.petitionToAddProduct(product);
+        else {
+            id = ((Product)getArguments().getParcelable(UPDATE_PRODUCT)).getId();
+            product.setId(id);
+            mPresenterCategory.requestUpdateProduct(product);
+        }
+    }
+
+
+    private void setDataFields() {
+        Product product = getArguments().getParcelable(UPDATE_PRODUCT);
+
+        edtSerial.setText(product.getSerial());
+        edtSortname.setText(product.getSortname());
+        edtDescription.setText(product.getDescription());
+
+        if (product.getCategory() == 1)
+            spCategory.setSelection(0);
+        else if (product.getCategory() == 2)
+            spCategory.setSelection(1);
+
+        switch (product.getSubcategory()) {
+            case 1:
+                spSubcategory.setSelection(0);
+                break;
+
+            case 2:
+                spSubcategory.setSelection(1);
+                break;
+
+            case 3:
+                spSubcategory.setSelection(0);
+                break;
+
+            case 4:
+                spSubcategory.setSelection(1);
+                break;
+        }
     }
 }

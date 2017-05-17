@@ -62,6 +62,10 @@ public class DatabaseManager {
         SQLiteDatabase db = DatabaseHelper.getInstance().openDatabase();
         SQLiteQueryBuilder queryBuilder = new SQLiteQueryBuilder();
 
+        queryBuilder.setTables(DatabaseContract.ProductEntry.PRODUCT_JOIN_CATEGORY_SUBCATEGORY);
+        cursor = queryBuilder.query(db, DatabaseContract.ProductEntry.PROJECTION_INNER,
+                null, null, null, null, null);
+
         return cursor;
     }
 

@@ -19,7 +19,7 @@ public class ProductLoaderManager extends CursorLoader {
 
     @Override
     public Cursor loadInBackground() {
-        return DatabaseManager.getInstance().getAllProduct();
+        return DatabaseManager.getInstance().getAllProductInnerJoin();
     }
 
 

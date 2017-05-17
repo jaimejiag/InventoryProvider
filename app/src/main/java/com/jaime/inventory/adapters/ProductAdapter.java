@@ -47,8 +47,8 @@ public class ProductAdapter extends CursorAdapter {
         holder.txvSerial.setText(cursor.getString(1));
         holder.txvSortname.setText(cursor.getString(2));
         holder.txvDescription.setText(cursor.getString(3));
-        holder.txvCategory.setText(String.valueOf(cursor.getInt(4)));
-        holder.txvSubcategory.setText(String.valueOf(cursor.getInt(5)));
+        holder.txvCategory.setText(cursor.getString(7));
+        holder.txvSubcategory.setText(cursor.getString(8));
         holder.txvProductclass.setText(String.valueOf(cursor.getInt(6)));
     }
 
@@ -64,6 +64,9 @@ public class ProductAdapter extends CursorAdapter {
                 getCursor().getInt(4),
                 getCursor().getInt(5),
                 getCursor().getInt(6));
+
+        //p.setCategoryName(getCursor().getString(7));
+        //p.setSubcategoryName(getCursor().getString(8));
 
         return p;
     }

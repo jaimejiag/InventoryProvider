@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.jaime.inventory">
+    package="com.jaime.inventoryprovider">
 
     <application
         android:allowBackup="true"
@@ -10,7 +10,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:name=".InventoryApplication">
-        <activity android:name=".MainActivity">
+
+        <provider
+            android:authorities="com.jaime.inventoryprovider"
+            android:name=".provider.InventoryProvider"/>
+
+        <activity android:name="com.jaime.inventoryprovider.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
